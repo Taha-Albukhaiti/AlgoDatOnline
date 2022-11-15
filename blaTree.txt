@@ -1,0 +1,7 @@
+ddd bbb aaa ccc eee
+
+         ddd
+        /   \
+      bbb   eee
+     /   \     
+   aaa   ccc
