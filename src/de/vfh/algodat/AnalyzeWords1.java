@@ -126,27 +126,31 @@ public class AnalyzeWords1 {
         for (int i = 0; i < page.getWords().length - 1; i++) {
             for (int j = i + 1; j < page.getWords().length; j++) {
                 sum = j - i;
-                tempo = i - j;
                 if (page.getWords()[i].equals(string1) && page.getWords()[j].equals(string2) && !page.getWords()[j].equals(string1)) {
                     System.out.println(sum);
                     if ((j - i) <= sum) {
                         sum = j - i;
-                        System.out.println(sum);
                         if (sum == 1) {
                             return sum;
                         }
                     }
-                } else if (page.getWords()[i].equals(string2) && page.getWords()[j].equals(string1)
+                }
+            }
+        }
+        for (int i = 0; i < page.getWords().length - 1; i++) {
+            for (int j = i + 1; j < page.getWords().length; j++) {
+                tempo = i - j;
+                if (page.getWords()[i].equals(string2) && page.getWords()[j].equals(string1)
                         && !string2.equals(string1)) {
                     if ((i - j) >= tempo) {
                         tempo = i - j;
                         sum = tempo;
-                        if (tempo >= -2) return sum;
-                        if (i == j) return sum;
+                        System.out.println(sum);
                     }
                 }
             }
         }
+
         return sum;
     }
 
@@ -205,24 +209,27 @@ public class AnalyzeWords1 {
     }
 }
 /*
-for (int i = 0; i < page.getWords().length; i++) {
+ for (int i = 0; i < page.getWords().length - 1; i++) {
             for (int j = i + 1; j < page.getWords().length; j++) {
                 sum = j - i;
                 tempo = i - j;
-                if (page.getWords()[i].equals(string1) && page.getWords()[j].equals(string2)) {
-                    if ((j - i) < tempo) {
-                        tempo = j - i;
-                        sum = tempo;
-                        // return tempo;
+                if (page.getWords()[i].equals(string1) && page.getWords()[j].equals(string2) && !page.getWords()[j].equals(string1)) {
+                    System.out.println(sum);
+                    if ((j - i) <= sum) {
+                        sum = j - i;
+                        System.out.println(sum);
+                        if (sum == 1) {
+                            return sum;
+                        }
                     }
-
-                }
-                if (page.getWords()[i].equals(string2) && page.getWords()[j].equals(string1)
+                } else if (page.getWords()[i].equals(string2) && page.getWords()[j].equals(string1)
                         && !string2.equals(string1)) {
-                    if ((i - j) < sum) {
-                        sum = i - j;
+                    if ((i - j) >= tempo) {
+                        tempo = i - j;
+                        sum = tempo;
+                        if (tempo >= -2) return sum;
+                        if (i == j) return sum;
                     }
-                    return sum;
                 }
             }
         }

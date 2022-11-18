@@ -2,6 +2,7 @@ package de.vfh.algodat;
 
 import java.io.IOException;
 import java.util.*;
+
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -126,21 +127,26 @@ public class AnalyzeWords2 {
         for (int i = 0; i < page.getWords().length - 1; i++) {
             for (int j = i + 1; j < page.getWords().length; j++) {
                 sum = j - i;
-                tempo = i - j;
                 if (page.getWords()[i].equals(string1) && page.getWords()[j].equals(string2) && !page.getWords()[j].equals(string1)) {
-                    if ((j - i) <= sum) {
-                        sum = j - i;
-                        if (sum == 1) {
-                            return sum;
+                    if (j > i) {
+                        if ((j - i) <= sum) {
+                            sum = j - i;
+                            if (sum == 1) {
+                                return sum;
+                            }
                         }
                     }
-                } else if (page.getWords()[i].equals(string2) && page.getWords()[j].equals(string1)
+                }
+            }
+        }
+        for (int i = 0; i < page.getWords().length - 1; i++) {
+            for (int j = i + 1; j < page.getWords().length; j++) {
+                tempo = i - j;
+                if (page.getWords()[i].equals(string2) && page.getWords()[j].equals(string1)
                         && !string2.equals(string1)) {
                     if ((i - j) >= tempo) {
                         tempo = i - j;
                         sum = tempo;
-                        if (tempo >= -2) return sum;
-                        if (i == j) return sum;
                     }
                 }
             }
