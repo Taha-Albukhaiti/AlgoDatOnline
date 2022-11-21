@@ -11,18 +11,13 @@ import static org.junit.Assert.assertEquals;
 public class AnalyzeWords2 {
     DownloadPage page;
 
-    private String[] stringsLinks;
-    private String stringsUrl;
-    private String stringsContent;
-    private Map<String, Integer> map;
-
-
     public AnalyzeWords2(DownloadPage downloadPage) {
         this.page = downloadPage;
     }
 
     public AnalyzeWords2(String str) throws IOException {
         this(new DownloadPage(str));
+        quickSort(page.getWords(), 0, page.getWords().length - 1);
     }
 
     /**
@@ -32,6 +27,27 @@ public class AnalyzeWords2 {
      * @return
      */
     public int frequency(String word) {
+/*
+        int k = 0;
+        int l = 0;
+        int r = page.getWords().length - 1;
+        while (l < r) {
+            int i = (l + r) / 2;
+            if (page.getWords()[i].compareTo(word) <= 0) {
+                l = i + 1;
+                if (page.getWords()[i].equals(word)){
+                    k++;
+                }
+            } else if (page.getWords()[i].compareTo(word) > 0){
+                r = i;
+            }
+
+        }
+        return k;
+
+ */
+
+
         int j = 0;
         for (String stringsWord : page.getWords()) {
             if (stringsWord.equals(word)) {
@@ -39,6 +55,9 @@ public class AnalyzeWords2 {
             }
         }
         return j;
+
+
+
         //return Arrays.stream(page.getWords()).sequential().mapToInt((strings) -> strings.equals(word) ? 1 : 0).sum();
     }
 
@@ -83,20 +102,29 @@ public class AnalyzeWords2 {
      */
     public String[] unique() {
         int count = 0;
-        for (String test : page.getWords()) {
-            int freq = frequency(test);
-            if (freq == 1) {
-                count++;
+
+        for (int i = 1; i < page.getWords().length - 1; i++){
+            if (!page.getWords()[i - 1].equals(page.getWords()[i])) count++;
+            if (!page.getWords()[i - 1].equals(page.getWords()[i]) && !page.getWords()[i].equals(page.getWords()[i + 1])){
+                count ++;
             }
         }
+        //if (!page.getWords()[page.getWords().length-1].equals(page.getWords()[page.getWords().length - 2])) count++;
+        System.out.println(count);
+
+        int j = 0;
         String[] result = new String[count];
-        count = 0;
-        for (String test : page.getWords()) {
-            int freq = frequency(test);
-            if (freq == 1) {
-                result[count++] = test;
+        for (int i = 1; i < page.getWords().length - 1; i++) {
+            if (!page.getWords()[i - 1].equals(page.getWords()[i])) {
+                j++;
+                result[j] = page.getWords()[i];
+            };
+                if (!page.getWords()[i- 1].equals(page.getWords()[i]) && !page.getWords()[i].equals(page.getWords()[i + 1])){
+                    j++;
+                    result[j] = page.getWords()[i];
+                }
             }
-        }
+
 
         return result;
     }
@@ -122,28 +150,22 @@ public class AnalyzeWords2 {
         // String1 == String2 und kommt nur einmal vor!
         if (frequency(string1) == 0 || frequency(string2) == 0 || (string1.equals(string2) && frequency(string1) == 1))
             return Integer.MAX_VALUE;
-        int tempo;
         int sum = 0;
         for (int i = 0; i < page.getWords().length - 1; i++) {
             for (int j = i + 1; j < page.getWords().length; j++) {
                 sum = j - i;
                 if (page.getWords()[i].equals(string1) && page.getWords()[j].equals(string2) && !page.getWords()[j].equals(string1)) {
-                    if (j > i) {
-                        if ((j - i) <= sum) {
-                            sum = j - i;
-                            if (sum == 1) {
-                                return sum;
-                            }
-                        }
+                    if ((j - i) <= sum) {
+                        sum = j - i;
+                        if (sum == 1) return sum;
                     }
                 }
             }
         }
         for (int i = 0; i < page.getWords().length - 1; i++) {
             for (int j = i + 1; j < page.getWords().length; j++) {
-                tempo = i - j;
-                if (page.getWords()[i].equals(string2) && page.getWords()[j].equals(string1)
-                        && !string2.equals(string1)) {
+                int tempo = i - j;
+                if (page.getWords()[i].equals(string2) && page.getWords()[j].equals(string1) && !string2.equals(string1)) {
                     if ((i - j) >= tempo) {
                         tempo = i - j;
                         sum = tempo;
@@ -228,9 +250,10 @@ public class AnalyzeWords2 {
     public void merge(String[] arr, int l, int m, int r) {
         int n1 = m - l + 1;
         int n2 = r - m;
+        int i, j, k;
+
         String[] liftArray = new String[n1];
         String[] rechtArray = new String[n2];
-        int i, j, k;
 
         for (i = 0; i < liftArray.length; i++) {
             liftArray[i] = arr[l + i];
@@ -238,6 +261,7 @@ public class AnalyzeWords2 {
         for (j = 0; j < rechtArray.length; j++) {
             rechtArray[j] = arr[m + 1 + j];
         }
+
         i = j = 0;
         k = l;
         while (i < n1 && j < n2) {
@@ -273,13 +297,12 @@ public class AnalyzeWords2 {
 
 
     /**
-     * liefert eine Position, an der s gespeichert ist.
+     * liefert eine Position, an der das Wort gespeichert ist.
      *
      * @param word
      * @return
      */
     public int isStoredAtPosition(String word) {
-        quickSort(page.getWords(), 0, page.getWords().length - 1);
        /* int i;
         for (i = 0; i < page.getWords().length; i++) {
             if (word.equals(page.getWords()[i])) break;
@@ -292,18 +315,22 @@ public class AnalyzeWords2 {
             if (page.getWords()[i].compareTo(word) < 0) l = i + 1;
             else r = i;
         }
-        if (Objects.equals(page.getWords()[l], word)) return l;
+        if (page.getWords()[l].equals(word)) return l;
         return l;
     }
 
     /**
      * liefert das Wort, das an der Stelle i gespeichert ist.
      *
-     * @param i
-     * @return
+     * @param i para
+     * @return das Wort an der Stelle i
      */
     public String wordAtPosition(int i) {
-        quickSort(page.getWords(), 0, page.getWords().length - 1);
         return page.getWords()[i];
+    }
+
+    public static void main(String[] args) throws IOException {
+        AnalyzeWords2 aw = new AnalyzeWords2("file:blatest.txt");
+        String[] uniqueWords = aw.unique();
     }
 }

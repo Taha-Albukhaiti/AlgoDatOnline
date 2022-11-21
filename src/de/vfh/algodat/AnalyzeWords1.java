@@ -11,12 +11,6 @@ import static org.junit.Assert.assertEquals;
 public class AnalyzeWords1 {
     DownloadPage page;
 
-    private String[] stringsLinks;
-    private String stringsUrl;
-    private String stringsContent;
-    private Map<String, Integer> map;
-
-
     public AnalyzeWords1(DownloadPage downloadPage) {
         this.page = downloadPage;
     }
@@ -127,7 +121,6 @@ public class AnalyzeWords1 {
             for (int j = i + 1; j < page.getWords().length; j++) {
                 sum = j - i;
                 if (page.getWords()[i].equals(string1) && page.getWords()[j].equals(string2) && !page.getWords()[j].equals(string1)) {
-                    System.out.println(sum);
                     if ((j - i) <= sum) {
                         sum = j - i;
                         if (sum == 1) {
@@ -145,7 +138,6 @@ public class AnalyzeWords1 {
                     if ((i - j) >= tempo) {
                         tempo = i - j;
                         sum = tempo;
-                        System.out.println(sum);
                     }
                 }
             }
@@ -187,10 +179,9 @@ public class AnalyzeWords1 {
                 }
             }
         }
-        int countNulls = 0;
-        for (String s : arr) if (s == null) countNulls++;
-
-        String[] neuesArray = new String[arr.length - countNulls];
+        int nulls = 0;
+        for (String s : arr) if (s == null) nulls++;
+        String[] neuesArray = new String[arr.length - nulls];
         for (int i = 0, j = 0; i < arr.length; i++) {
             if (arr[i] != null) {
                 neuesArray[j] = arr[i];
