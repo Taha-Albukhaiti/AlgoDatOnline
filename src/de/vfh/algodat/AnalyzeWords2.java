@@ -27,38 +27,33 @@ public class AnalyzeWords2 {
      * @return
      */
     public int frequency(String word) {
-/*
+
         int k = 0;
+        int end = 0;
         int l = 0;
+        int s = 0;
         int r = page.getWords().length - 1;
         while (l < r) {
             int i = (l + r) / 2;
             if (page.getWords()[i].compareTo(word) <= 0) {
                 l = i + 1;
                 if (page.getWords()[i].equals(word)){
-                    k++;
+                    k = i;
+                    break;
                 }
             } else if (page.getWords()[i].compareTo(word) > 0){
                 r = i;
+
             }
 
         }
-        return k;
-
- */
-
-
-        int j = 0;
-        for (String stringsWord : page.getWords()) {
-            if (stringsWord.equals(word)) {
-                j++;
+        for (int m = k; m < r; m++){
+            if (page.getWords()[m].equals(word)){
+                System.out.println("Haa222");
+                s++;
             }
         }
-        return j;
-
-
-
-        //return Arrays.stream(page.getWords()).sequential().mapToInt((strings) -> strings.equals(word) ? 1 : 0).sum();
+        return s;
     }
 
     /**
