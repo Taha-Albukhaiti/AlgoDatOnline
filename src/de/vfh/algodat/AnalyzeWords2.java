@@ -23,35 +23,21 @@ public class AnalyzeWords2 {
     /**
      * liefert die Anzahl von Vorkommen des Wortes word.
      *
-     * @param word
+     * @param
      * @return
      */
     public int frequency(String word) {
-
-        int k = 0;
-        int end = 0;
         int l = 0;
         int s = 0;
         int r = page.getWords().length - 1;
         while (l < r) {
             int i = (l + r) / 2;
-            if (page.getWords()[i].compareTo(word) <= 0) {
-                l = i + 1;
-                if (page.getWords()[i].equals(word)){
-                    k = i;
-                    break;
-                }
-            } else if (page.getWords()[i].compareTo(word) > 0){
-                r = i;
-
-            }
-
+            if (page.getWords()[i].compareTo(word) < 0) l = i + 1;
+            else r = i;
         }
-        for (int m = k; m < r; m++){
-            if (page.getWords()[m].equals(word)){
-                System.out.println("Haa222");
-                s++;
-            }
+        for (int m = l; m < page.getWords().length; m++) {
+            if (page.getWords()[m].equals(word)) s++;
+            else break;
         }
         return s;
     }
@@ -97,32 +83,31 @@ public class AnalyzeWords2 {
      */
     public String[] unique() {
         int count = 0;
-
-        for (int i = 1; i < page.getWords().length - 1; i++){
-            if (!page.getWords()[i - 1].equals(page.getWords()[i])) count++;
-            if (!page.getWords()[i - 1].equals(page.getWords()[i]) && !page.getWords()[i].equals(page.getWords()[i + 1])){
-                count ++;
+        if (!page.getWords()[0].equals(page.getWords()[1])) count++;
+        for (int i = 1; i < page.getWords().length - 1; i++) {
+            if (!page.getWords()[i - 1].equals(page.getWords()[i]) && !page.getWords()[i].equals(page.getWords()[i + 1])) {
+                count++;
             }
         }
-        //if (!page.getWords()[page.getWords().length-1].equals(page.getWords()[page.getWords().length - 2])) count++;
-        System.out.println(count);
-
+        if (!page.getWords()[page.getWords().length - 2].equals(page.getWords()[page.getWords().length - 1])) count++;
         int j = 0;
         String[] result = new String[count];
+        if (!page.getWords()[0].equals(page.getWords()[1])) {
+            result[j] = page.getWords()[0];
+            j++;
+        }
         for (int i = 1; i < page.getWords().length - 1; i++) {
-            if (!page.getWords()[i - 1].equals(page.getWords()[i])) {
-                j++;
+            if (!page.getWords()[i - 1].equals(page.getWords()[i]) && !page.getWords()[i].equals(page.getWords()[i + 1])) {
                 result[j] = page.getWords()[i];
-            };
-                if (!page.getWords()[i- 1].equals(page.getWords()[i]) && !page.getWords()[i].equals(page.getWords()[i + 1])){
-                    j++;
-                    result[j] = page.getWords()[i];
-                }
+                j++;
             }
-
+        }
+        if (!page.getWords()[page.getWords().length - 2].equals(page.getWords()[page.getWords().length - 1])) {
+            result[j] = page.getWords()[page.getWords().length - 1];
+        }
 
         return result;
-    }
+}
 
     /**
      * berechnet die kleinste Distanz zwischen einem Vorkommen von string1 und
@@ -167,6 +152,7 @@ public class AnalyzeWords2 {
                     }
                 }
             }
+            if ( (i+ 1) == page.getWords().length - 1) return sum;
         }
         return sum;
     }
@@ -204,10 +190,9 @@ public class AnalyzeWords2 {
                 }
             }
         }
-        int countNulls = 0;
-        for (String s : arr) if (s == null) countNulls++;
-
-        String[] neuesArray = new String[arr.length - countNulls];
+        int nulls = 0;
+        for (String s : arr) if (s == null) nulls++;
+        String[] neuesArray = new String[arr.length - nulls];
         for (int i = 0, j = 0; i < arr.length; i++) {
             if (arr[i] != null) {
                 neuesArray[j] = arr[i];
@@ -303,7 +288,7 @@ public class AnalyzeWords2 {
             if (word.equals(page.getWords()[i])) break;
         }
         */
-        int l = 0;
+        int l = 0;  // [2, 3, 4, 5, 6, 7, 8, 9] => 3  l = 1 - r = 1 i = 0
         int r = page.getWords().length - 1;
         while (l < r) {
             int i = (l + r) / 2;
@@ -324,8 +309,5 @@ public class AnalyzeWords2 {
         return page.getWords()[i];
     }
 
-    public static void main(String[] args) throws IOException {
-        AnalyzeWords2 aw = new AnalyzeWords2("file:blatest.txt");
-        String[] uniqueWords = aw.unique();
-    }
+
 }
