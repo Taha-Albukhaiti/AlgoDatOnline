@@ -17,7 +17,7 @@ public class AnalyzeWords2 {
 
     public AnalyzeWords2(String str) throws IOException {
         this(new DownloadPage(str));
-        quickSort(page.getWords(), 0, page.getWords().length - 1);
+
     }
 
     /**
@@ -27,6 +27,7 @@ public class AnalyzeWords2 {
      * @return
      */
     public int frequency(String word) {
+        quickSort(page.getWords(), 0, page.getWords().length - 1);
         int l = 0;
         int s = 0;
         int r = page.getWords().length - 1;
@@ -82,6 +83,8 @@ public class AnalyzeWords2 {
      * @return
      */
     public String[] unique() {
+        quickSort(page.getWords(), 0, page.getWords().length - 1);
+        /*
         int count = 0;
         if (!page.getWords()[0].equals(page.getWords()[1])) count++;
         for (int i = 1; i < page.getWords().length - 1; i++) {
@@ -106,8 +109,19 @@ public class AnalyzeWords2 {
             result[j] = page.getWords()[page.getWords().length - 1];
         }
 
+         */
+        int count = 0;
+        for (int i  = 0; i < page.getWords().length; i++){
+            if (frequency(page.getWords()[i]) == 1) count++;
+        }
+        String[] result = new String[count];
+        int l = 0;
+        for (int i  = 0; i < page.getWords().length; i++){
+            if (frequency(page.getWords()[i]) == 1) result[++l] = page.getWords()[i];
+        }
+
         return result;
-}
+    }
 
     /**
      * berechnet die kleinste Distanz zwischen einem Vorkommen von string1 und
@@ -125,36 +139,49 @@ public class AnalyzeWords2 {
      */
     public int distance(String string1, String string2) {
 
-        // Sollte eine der beiden Zeichenketten gar nicht vorkommen, dann soll distance den
-        // Wert Integer.MAX_VALUE liefern.
-        // String1 == String2 und kommt nur einmal vor!
-        if (frequency(string1) == 0 || frequency(string2) == 0 || (string1.equals(string2) && frequency(string1) == 1))
-            return Integer.MAX_VALUE;
-        int sum = 0;
-        for (int i = 0; i < page.getWords().length - 1; i++) {
-            for (int j = i + 1; j < page.getWords().length; j++) {
-                sum = j - i;
-                if (page.getWords()[i].equals(string1) && page.getWords()[j].equals(string2) && !page.getWords()[j].equals(string1)) {
-                    if ((j - i) <= sum) {
-                        sum = j - i;
-                        if (sum == 1) return sum;
+        int index1 = -1;
+        int index2 = -1;
+        int minDistance = Integer.MAX_VALUE;
+        int tempDistance = 0;
+
+        for (int x = 0; x < page.getWords().length - 1; x++) {
+            if (!string1.equals(string2)) {
+                if (page.getWords()[x].equals(string1)) {
+                    index1 = x;
+                }
+                if (page.getWords()[x].equals(string2)) {
+                    index2 = x;
+                }
+                if (index1 != -1 && index2 != -1 && index1 < index2) {
+                    tempDistance =  index2 - index1;
+                    if (tempDistance < minDistance) {
+                        minDistance = tempDistance;
+                    }
+                } else if (index1 != -1 && index2 != -1) {
+                    tempDistance = Math.abs(index1 - index2);
+
+                    if (tempDistance < minDistance) {
+                        minDistance = -tempDistance;
+                    }
+                }
+            } else {
+                if (x != 0) {
+                    if (page.getWords()[x - 1].equals(string1)) {
+                        index1 = x - 1;
+                    }
+                    if (page.getWords()[x].equals(string2)) {
+                        index2 = x;
+                    }
+                    if (index1 != -1 && index2 != -1 && index1 < index2) {
+                        tempDistance = index2 - index1;
+                        if (tempDistance < minDistance) {
+                            minDistance = tempDistance;
+                        }
                     }
                 }
             }
         }
-        for (int i = 0; i < page.getWords().length - 1; i++) {
-            for (int j = i + 1; j < page.getWords().length; j++) {
-                int tempo = i - j;
-                if (page.getWords()[i].equals(string2) && page.getWords()[j].equals(string1) && !string2.equals(string1)) {
-                    if ((i - j) >= tempo) {
-                        tempo = i - j;
-                        sum = tempo;
-                    }
-                }
-            }
-            if ( (i+ 1) == page.getWords().length - 1) return sum;
-        }
-        return sum;
+        return minDistance;
     }
 
     /**
@@ -283,6 +310,7 @@ public class AnalyzeWords2 {
      * @return
      */
     public int isStoredAtPosition(String word) {
+        quickSort(page.getWords(), 0, page.getWords().length - 1);
        /* int i;
         for (i = 0; i < page.getWords().length; i++) {
             if (word.equals(page.getWords()[i])) break;
@@ -306,6 +334,7 @@ public class AnalyzeWords2 {
      * @return das Wort an der Stelle i
      */
     public String wordAtPosition(int i) {
+        quickSort(page.getWords(), 0, page.getWords().length - 1);
         return page.getWords()[i];
     }
 

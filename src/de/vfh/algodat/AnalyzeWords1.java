@@ -111,40 +111,49 @@ public class AnalyzeWords1 {
      */
     public int distance(String string1, String string2) {
 
-        // Sollte eine der beiden Zeichenketten gar nicht vorkommen, dann soll distance den
-        // Wert Integer.MAX_VALUE liefern.
-        // String1 == String2 und kommt nur einmal vor!
-        if (frequency(string1) == 0 || frequency(string2) == 0 || (string1.equals(string2) && frequency(string1) == 1))
-            return Integer.MAX_VALUE;
-        int tempo;
-        int sum = 0;
-        for (int i = 0; i < page.getWords().length - 1; i++) {
-            for (int j = i + 1; j < page.getWords().length; j++) {
-                sum = j - i;
-                if (page.getWords()[i].equals(string1) && page.getWords()[j].equals(string2) && !page.getWords()[j].equals(string1)) {
-                    if ((j - i) <= sum) {
-                        sum = j - i;
-                        if (sum == 1) {
-                            return sum;
+        int index1 = -1;
+        int index2 = -1;
+        int minDistance = Integer.MAX_VALUE;
+        int tempDistance = 0;
+
+        for (int x = 0; x < page.getWords().length - 1; x++) {
+            if (!string1.equals(string2)) {
+                if (page.getWords()[x].equals(string1)) {
+                    index1 = x;
+                }
+                if (page.getWords()[x].equals(string2)) {
+                    index2 = x;
+                }
+                if (index1 != -1 && index2 != -1 && index1 < index2) {
+                    tempDistance = (int) Math.abs(index2 - index1);
+                    if (tempDistance < minDistance) {
+                        minDistance = tempDistance;
+                    }
+                } else if (index1 != -1 && index2 != -1) {
+                    tempDistance = (int) Math.abs(index1 - index2);
+                    if (tempDistance < minDistance) {
+                        minDistance = -tempDistance;
+                    }
+                }
+            } else {
+                if (x != 0) {
+                    if (page.getWords()[x - 1].equals(string1)) {
+                        index1 = x - 1;
+                    }
+                    if (page.getWords()[x].equals(string2)) {
+                        index2 = x;
+                    }
+                    if (index1 != -1 && index2 != -1 && index1 < index2) {
+                        tempDistance = index2 - index1;
+                        if (tempDistance < minDistance) {
+                            minDistance = tempDistance;
                         }
                     }
                 }
             }
         }
-        for (int i = 0; i < page.getWords().length - 1; i++) {
-            for (int j = i + 1; j < page.getWords().length; j++) {
-                tempo = i - j;
-                if (page.getWords()[i].equals(string2) && page.getWords()[j].equals(string1)
-                        && !string2.equals(string1)) {
-                    if ((i - j) >= tempo) {
-                        tempo = i - j;
-                        sum = tempo;
-                    }
-                }
-            }
-        }
+        return minDistance;
 
-        return sum;
     }
 
     /**
@@ -225,4 +234,41 @@ public class AnalyzeWords1 {
                 }
             }
         }
+
+
+
+        // Sollte eine der beiden Zeichenketten gar nicht vorkommen, dann soll distance den
+        // Wert Integer.MAX_VALUE liefern.
+        // String1 == String2 und kommt nur einmal vor!
+        if (frequency(string1) == 0 || frequency(string2) == 0 || (string1.equals(string2) && frequency(string1) == 1))
+            return Integer.MAX_VALUE;
+        int tempo;
+        int sum = 0;
+        for (int i = 0; i < page.getWords().length - 1; i++) {
+            for (int j = i + 1; j < page.getWords().length; j++) {
+                sum = j - i;
+                if (page.getWords()[i].equals(string1) && page.getWords()[j].equals(string2) && !page.getWords()[j].equals(string1)) {
+                    if ((j - i) <= sum) {
+                        sum = j - i;
+                        if (sum == 1) {
+                            return sum;
+                        }
+                    }
+                }
+            }
+        }
+        for (int i = 0; i < page.getWords().length - 1; i++) {
+            for (int j = i + 1; j < page.getWords().length; j++) {
+                tempo = i - j;
+                if (page.getWords()[i].equals(string2) && page.getWords()[j].equals(string1)
+                        && !string2.equals(string1)) {
+                    if ((i - j) >= tempo) {
+                        tempo = i - j;
+                        sum = tempo;
+                    }
+                }
+            }
+        }
+
+        return sum;
  */

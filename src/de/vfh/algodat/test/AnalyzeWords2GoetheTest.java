@@ -17,7 +17,7 @@ import de.vfh.algodat.AnalyzeWords2;
 public class AnalyzeWords2GoetheTest {
 
     @Rule
-    public TestRule timeout = new DisableOnDebug(new Timeout(500, TimeUnit.MILLISECONDS));
+    public TestRule timeout = new DisableOnDebug(new Timeout(9000, TimeUnit.MILLISECONDS));
 
     @Test
     public void testFrequencyGoethe() throws IOException {
