@@ -84,7 +84,7 @@ public class AnalyzeWords2 {
      */
     public String[] unique() {
         quickSort(page.getWords(), 0, page.getWords().length - 1);
-        /*
+
         int count = 0;
         if (!page.getWords()[0].equals(page.getWords()[1])) count++;
         for (int i = 1; i < page.getWords().length - 1; i++) {
@@ -109,7 +109,7 @@ public class AnalyzeWords2 {
             result[j] = page.getWords()[page.getWords().length - 1];
         }
 
-         */
+/*
         int count = 0;
         for (int i  = 0; i < page.getWords().length; i++){
             if (frequency(page.getWords()[i]) == 1) count++;
@@ -119,7 +119,7 @@ public class AnalyzeWords2 {
         for (int i  = 0; i < page.getWords().length; i++){
             if (frequency(page.getWords()[i]) == 1) result[++l] = page.getWords()[i];
         }
-
+*/
         return result;
     }
 
@@ -310,7 +310,7 @@ public class AnalyzeWords2 {
      * @return
      */
     public int isStoredAtPosition(String word) {
-        quickSort(page.getWords(), 0, page.getWords().length - 1);
+        mergesort(page.getWords(), 0, page.getWords().length - 1);
        /* int i;
         for (i = 0; i < page.getWords().length; i++) {
             if (word.equals(page.getWords()[i])) break;
@@ -334,7 +334,7 @@ public class AnalyzeWords2 {
      * @return das Wort an der Stelle i
      */
     public String wordAtPosition(int i) {
-        quickSort(page.getWords(), 0, page.getWords().length - 1);
+        mergesort(page.getWords(), 0, page.getWords().length - 1);
         return page.getWords()[i];
     }
 
