@@ -3,8 +3,6 @@ package de.vfh.algodat;
 import java.io.IOException;
 import java.util.*;
 
-import static org.junit.Assert.assertEquals;
-
 /**
  * @author Taha Al-Bukhaiti
  */
@@ -29,13 +27,13 @@ public class AnalyzeWords2 {
     public int frequency(String word) {
         quickSort(page.getWords(), 0, page.getWords().length - 1);
         int l = 0;
-        int s = 0;
         int r = page.getWords().length - 1;
         while (l < r) {
             int i = (l + r) / 2;
             if (page.getWords()[i].compareTo(word) < 0) l = i + 1;
             else r = i;
         }
+        int s = 0;
         for (int m = l; m < page.getWords().length; m++) {
             if (page.getWords()[m].equals(word)) s++;
             else break;

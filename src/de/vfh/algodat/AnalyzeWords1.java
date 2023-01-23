@@ -82,8 +82,7 @@ public class AnalyzeWords1 {
             if (freq == 1) {
                 count++;
             }
-        }   System.out.println(count);
-
+        }
         String[] result = new String[count];
         count = 0;
         for (String test : page.getWords()) {
